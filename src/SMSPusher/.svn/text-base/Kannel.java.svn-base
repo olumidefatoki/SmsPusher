@@ -1,0 +1,109 @@
+
+/* To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package SMSPusher;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.regex.Pattern;
+
+/**
+ *
+ * @author Ahmed
+ */
+public class Kannel
+{
+    private final String dKey = "w3aF1Bank";
+
+    /**
+     * Returns a url string for sending short messages using kannel assuming the
+     * kannel url string configuration has been modified
+     *
+     * @param gatewayHost
+     * @param gatewayAppContext
+     * @param gatewayPort
+     * @param gatewayUser
+     * @param gatewayPassword
+     * @param sourceMsisdn
+     * @param destinationMsisdn
+     * @param text
+     * @param udh
+     * @return
+     */
+    static  String urlComposer(Message msg) throws UnsupportedEncodingException{
+        StringBuilder param = new StringBuilder();
+        // Compose BaseUrl
+        param.append("http://").append(Log.l.GATEWAYHOST).append(":");
+        // TODO: Figure out a way to parameterize the '/cgi-bin/sendsms' part
+        param.append(Log.l.GATEWAYPORT).append(Log.l.GATEWAY_APP_CONTEXT);
+
+        param.append("?from=").append(URLEncoder.encode(msg.getSourceAddress(),"UTF-8"));    // an alphanumeric sender address
+        param.append("&to=").append(msg.getDestAddress()); //mobile number which will receive the SMS
+        param.append("&username=").append(Log.l.GATEWAY_USERNAME);
+        param.append("&password=").append(Log.l.GATEWAY_PASSWORD);
+        param.append("&text=").append(URLEncoder.encode(msg.getMessageContent(), "UTF-8"));
+        param.append("&dlr-mask=").append("31");
+       // param.append("&dlr-url=").append(URLEncoder.encode(Log.l.dlr_url,"UTF-8"));
+        return param.toString();
+    }  
+    static int  sendSms(Message msg){
+        int responseCode=0;
+            String responseMessage="";
+        try {
+            
+            URL myUrl= new URL(urlComposer(msg));
+            HttpURLConnection response= (HttpURLConnection) myUrl.openConnection();
+            
+            responseCode=response.getResponseCode();
+            responseMessage= response.getResponseMessage();
+             Log.l.infoLog.info("  Response  for "+msg.getMessageId()+" --- HTTP_STATUS_CODE - "+responseCode+"--- HTTP_STATUS_REASON - "+responseMessage);
+         
+        } catch (IOException ex) {
+              Log.l.fatalLog.fatal(Kannel.class.getName()+ex);
+             responseCode= 111;
+        }  
+        return responseCode;
+    }
+    public static  String   formatDestination(String phone) 
+    {
+       
+        String destinationMsisdn = phone;
+        String formattedDest="invalid";
+        try {
+        if (destinationMsisdn.length() == 14) {
+                if (destinationMsisdn.startsWith("+234")) {
+                    if (Pattern.matches("[+][2][3][4][0-9]*", destinationMsisdn)) {
+                        formattedDest=destinationMsisdn;
+                    
+                    }
+                }
+            }
+         else  if (destinationMsisdn.length() == 13) {
+                if (destinationMsisdn.startsWith("234")) {
+                    if (Pattern.matches("[2][3][4][0-9]*", destinationMsisdn)) {
+                      formattedDest=destinationMsisdn;
+                     
+                    }
+                }
+            }
+
+         else if (destinationMsisdn.length() == 11) {
+               if (destinationMsisdn.startsWith("0")) {
+                if(Pattern.matches("[0-9]*", destinationMsisdn));
+                formattedDest = destinationMsisdn.replaceFirst("0", "+234");
+                }
+                 }
+            }
+         catch (NullPointerException e) {
+            Log.l.fatalLog.fatal(DBUtils.class.getName() + e);           
+        }
+        return formattedDest;
+
+    }
+
+   
+}

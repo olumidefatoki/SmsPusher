@@ -1,0 +1,35 @@
+10
+
+dir
+293
+svn+ssh://192.168.1.98/var/cellulantsrepo/SmsPusherScheduler/test
+svn+ssh://192.168.1.98/var/cellulantsrepo
+
+
+
+2012-11-22T15:25:27.133159Z
+293
+root
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+c226d91e-e368-4cca-85c3-8d4aeb3f9012
+
+
+
+
+
+
+0
+

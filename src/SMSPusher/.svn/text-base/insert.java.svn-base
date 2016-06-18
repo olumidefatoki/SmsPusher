@@ -1,0 +1,48 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package SMSPusher;
+
+import java.util.Random;
+
+/**
+ *
+ * @author olumide
+ */
+public class insert {
+     public static void main(String[] args) {
+        Random rnd=new Random();
+       
+        
+        DBUtils myDb= new DBUtils();
+        Message msg= new Message ();
+        int id =338;
+        while (true) {
+         try
+         {
+             
+      
+       
+       msg.setMaxSend(3);
+       msg.setDestAddress("2348060099476");
+       msg.setMessageContent("Test Pivot");
+       msg.setStatusId(7);
+       msg.setNo_of_Retry(0);
+       msg.setSourceAddress("sms pusher test");
+       msg.setBucketId(0);
+       
+      
+       
+       myDb.insert(msg);
+      Thread.sleep( (int)(rnd.nextDouble()*5000));
+             System.out.println("success");
+        }
+       
+         catch(Exception ex){
+             System.out.println(ex);
+         }
+       
+        } 
+    }
+}

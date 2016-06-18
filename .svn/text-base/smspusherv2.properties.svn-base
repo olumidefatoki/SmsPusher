@@ -1,0 +1,32 @@
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+SLEEP_TIME=10000
+MIN_RUN_ID=10
+MAX_MEM_CAPACITY=100
+MAX_NUM_LOGFILES=10
+MAX_LOGFILE_SIZE=100MB
+INFO_LOG_LEVEL=INFO
+ERROR_LOG_LEVEL=ERROR
+FATAL_LOG_LEVEL=FATAL
+INFO_LOG_FILE=infoLogSMSPusher
+ERROR_LOG_FILE=errorlogSMSPusher
+FATAL_LOG_FILE=fatallogSMSPusher
+DB_URL=jdbc:mysql://localhost:3306/
+DB_NAME=fadama
+DB_DRIVER=com.mysql.jdbc.Driver
+DB_USERNAME=confada2
+DB_PASSWORD=dfat#2000
+NO_OF_THREAD=10
+BUCKET_SIZE=20
+GATEWAY_APP_CONTEXT=/cgi-bin/sendsms
+GATEWAY_USERNAME=tester
+GATEWAY_PASSWORD=foobar
+GATEWAYHOST=127.0.0.1
+GATEWAYPORT=13013
+PENDING_STATUS=7
+PICKED_STATUS=12
+FAILED_STATUS=13
+FAILED_STATUS2=14
+SUCCESS_STATUS=11
+dlr_url=http://192.168.1.131:8080/DLRReciever_1/DLR?dlr=%d&username=unionbank&uid=12345&smsid=34565&fid=%F&oa=%p&da=%P&smsc=%i&dlr-type=%d&message=%a&time=%t&internalId=%I%22
+
